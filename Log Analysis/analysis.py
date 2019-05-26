@@ -2,13 +2,33 @@ import time
 
 import psycopg2
 
-view = "create view article_counts as \
-select author, title, slug, path \
-from articles left join log \
-on log.path like '%'||articles.slug||'%';"
+article_counts = """
+        create view article_counts as 
+        select author, title, slug, path 
+        from articles left join log 
+        on log.path like '%'||articles.slug||'%';
+        """
+total_req = """
+            create view total_req as
+            select time::date as day, count(*) as total_requests
+            from log
+            group by day;
+            """
+total_req_err = """
+                create view total_req_err as
+                select time::date as day, count(*) as total_errors
+                from log
+                where log.status like '%404%'
+                group by day;
+                """
 
 
 def execute(query):
+    """
+    Executes a given query. Note that the function will re-use the cursor defined in main.
+    :param query: a query that needs to be executed by the cursor.
+    :return: the result of the query using cursor.fetchall(), and the time taken to execute the query.
+    """
     t_start = time.time()
     c.execute(query)
     values = c.fetchall()
@@ -30,11 +50,13 @@ def solve_question1():
     :return: the executed result (table of title and count)
     """
     print("What are the most popular three articles of all time?")
-    query = """select title, count(path) as count 
-                from article_counts 
-                group by title 
-                order by count desc 
-                limit 3;"""
+    query = """
+            select title, count(path) as count 
+            from article_counts 
+            group by title 
+            order by count desc 
+            limit 3;
+            """
 
     return execute(query)
 
@@ -57,7 +79,18 @@ def solve_question2():
 
 
 def solve_question3():
-    pass
+    """
+    Joins two predefined
+    :return:
+    """
+    print("3. On which days did more than 1% of requests lead to errors?")
+    query = """
+            select total_req.day, (total_errors::decimal/total_requests*100) as percent
+            from total_req join total_req_err 
+            on total_req.day = total_req_err.day
+            where total_errors::decimal/total_requests*100 >= 2;
+            """
+    return execute(query)
 
 
 if __name__ == '__main__':
@@ -69,3 +102,6 @@ if __name__ == '__main__':
 
     answer2, time2 = solve_question2()
     print_answer(answer2, time2)
+
+    answer3, time3 = solve_question3()
+    print_answer(answer3, time3)
