@@ -2,6 +2,7 @@
 import time
 import psycopg2
 
+
 def execute(query):
     """
     Executes a given query. Note that the function will re-use the cursor defined in main.
@@ -15,16 +16,6 @@ def execute(query):
 
     t_first = t_finish - t_start
     return values, t_first
-
-
-def print_answer(answer, time):
-    """
-    Prints the answer and time required in an easy to read format
-    :param answer: the database answer to be printed
-    :param time: the time it took for the answer to be generated
-    :return: None
-    """
-
 
 
 def solve_question1():
