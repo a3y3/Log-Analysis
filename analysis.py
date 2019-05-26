@@ -1,26 +1,6 @@
+#!/usr/bin/env python3
 import time
 import psycopg2
-
-article_counts = """
-        create view article_counts as 
-        select author, title, slug, path 
-        from articles left join log 
-        on log.path like '%'||articles.slug||'%';
-        """
-total_req = """
-            create view total_req as
-            select time::date as day, count(*) as total_requests
-            from log
-            group by day;
-            """
-total_req_err = """
-                create view total_req_err as
-                select time::date as day, count(*) as total_errors
-                from log
-                where log.status like '%404%'
-                group by day;
-                """
-
 
 def execute(query):
     """
@@ -44,9 +24,7 @@ def print_answer(answer, time):
     :param time: the time it took for the answer to be generated
     :return: None
     """
-    for a in answer:
-        print("\t\"{}\" - {}".format(a[0], a[1]))
-    print("Time taken:", time, "seconds.\n")
+
 
 
 def solve_question1():
@@ -103,12 +81,18 @@ if __name__ == '__main__':
     c = db.cursor()
 
     answer1, time1 = solve_question1()
-    print_answer(answer1, time1)
+    for a in answer1:
+        print("\t\"{}\" - {} views".format(a[0], a[1]))
+    print("Time taken:", time1, "seconds.\n")
 
     answer2, time2 = solve_question2()
-    print_answer(answer2, time2)
+    for a in answer2:
+        print("\t{} - {} views".format(a[0], a[1]))
+    print("Time taken:", time2, "seconds.\n")
 
     answer3, time3 = solve_question3()
-    print_answer(answer3, time3)
+    for a in answer3:
+        print("\t{} - {}% errors".format(a[0], a[1]))
+    print("Time taken:", time3, "seconds.\n")
 
     db.close()
