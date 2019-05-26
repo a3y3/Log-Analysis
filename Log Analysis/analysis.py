@@ -41,7 +41,7 @@ def execute(query):
 def print_answer(answer, time):
     for a in answer:
         print("\t\"{}\" - {}".format(a[0], a[1]))
-    print("Time taken:", time, "\n")
+    print("Time taken:", time, "seconds.\n")
 
 
 def solve_question1():
@@ -83,7 +83,7 @@ def solve_question3():
     Joins two predefined
     :return:
     """
-    print("3. On which days did more than 1% of requests lead to errors?")
+    print("On which days did more than 1% of requests lead to errors?")
     query = """
             select total_req.day, (total_errors::decimal/total_requests*100) as percent
             from total_req join total_req_err 
