@@ -1,5 +1,4 @@
 import time
-
 import psycopg2
 
 article_counts = """
@@ -39,6 +38,12 @@ def execute(query):
 
 
 def print_answer(answer, time):
+    """
+    Prints the answer and time required in an easy to read format
+    :param answer: the database answer to be printed
+    :param time: the time it took for the answer to be generated
+    :return: None
+    """
     for a in answer:
         print("\t\"{}\" - {}".format(a[0], a[1]))
     print("Time taken:", time, "seconds.\n")
@@ -105,3 +110,5 @@ if __name__ == '__main__':
 
     answer3, time3 = solve_question3()
     print_answer(answer3, time3)
+
+    db.close()
