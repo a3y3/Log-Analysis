@@ -9,16 +9,20 @@ def execute(query):
     :param query: a query that needs to be executed by the cursor.
     :return: the result of the query using cursor.fetchall(), and the time taken to execute the query.
     """
+    db = psycopg2.connect(database="news")
+    c = db.cursor()
+
     t_start = time.time()
     c.execute(query)
     values = c.fetchall()
     t_finish = time.time()
 
     t_first = t_finish - t_start
+    db.close()
     return values, t_first
 
 
-def solve_question1():
+def get_top_articles():
     """
     Groups the view on the basis of title and calculates the count.
     :return: the executed result (table of title and count)
@@ -35,7 +39,7 @@ def solve_question1():
     return execute(query)
 
 
-def solve_question2():
+def get_top_authors():
     """
     Joins the view (article_counts) and authors, groups on the basis of names, and counts the
     number of titles by each author.
@@ -52,10 +56,11 @@ def solve_question2():
     return execute(query)
 
 
-def solve_question3():
+def get_days_with_1_percent_errors():
     """
-    Joins two predefined
-    :return:
+    Joins two predefined views and calculates percentage errors as total_errors/total_requests
+    (where total_errors and total_requests are columns in the views)
+    :return: result in the form of day and percent errors.
     """
     print("On which days did more than 1% of requests lead to errors?")
     query = """
@@ -68,22 +73,19 @@ def solve_question3():
 
 
 if __name__ == '__main__':
-    db = psycopg2.connect(database="news")
-    c = db.cursor()
 
-    answer1, time1 = solve_question1()
+
+    answer1, time1 = get_top_articles()
     for a in answer1:
         print("\t\"{}\" - {} views".format(a[0], a[1]))
     print("Time taken:", time1, "seconds.\n")
 
-    answer2, time2 = solve_question2()
+    answer2, time2 = get_top_authors()
     for a in answer2:
         print("\t{} - {} views".format(a[0], a[1]))
     print("Time taken:", time2, "seconds.\n")
 
-    answer3, time3 = solve_question3()
+    answer3, time3 = get_days_with_1_percent_errors()
     for a in answer3:
         print("\t{} - {}% errors".format(a[0], a[1]))
     print("Time taken:", time3, "seconds.\n")
-
-    db.close()
