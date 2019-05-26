@@ -1,16 +1,16 @@
 What are the most popular three articles of all time?
-	"Candidate is jerk, alleges rival" - 342102
-	"Bears love berries, alleges bear" - 256365
-	"Bad things gone, say good people" - 171762
-Time taken: 5.142727613449097 seconds.
+	"Candidate is jerk, alleges rival" - 338647 views
+	"Bears love berries, alleges bear" - 253801 views
+	"Bad things gone, say good people" - 170098 views
+Time taken: 0.8 seconds.
 
 Who are the most popular article authors of all time?
-	"Ursula La Multa" - 512805
-	"Rudolf von Treppenwitz" - 427781
-	"Anonymous Contributor" - 171762
-	"Markoff Chaney" - 85387
-Time taken: 5.060083389282227 seconds.
+	Ursula La Multa - 507594 views
+	Rudolf von Treppenwitz - 423457 views
+	Anonymous Contributor - 170098 views
+	Markoff Chaney - 84557 views
+Time taken: 0.75 seconds.
 
 On which days did more than 1% of requests lead to errors?
-	"2016-07-17" - 2.28042811810896574000
-Time taken: 1.7745952606201172 seconds.
+	2016-07-17 - 2.28% errors
+Time taken: 1.8 seconds.

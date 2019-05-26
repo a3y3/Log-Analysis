@@ -14,6 +14,7 @@ You will need:
 - The database located [here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
 
 ### Steps to build
+- Extract the zip to find `newsdata.sql`
 - Create the database using `CREATE DATABASE news;`
 - Fill the database using `psql -d news -f newsdata.sql`
 - Create views by typing these directly into your psql console. You'll need to create 3 views:
@@ -22,8 +23,9 @@ You will need:
       create view article_counts as 
       select author, title, slug, path 
       from articles left join log 
-      on log.path like '%'||articles.slug||'%'; 
+      on log.path = '/article/'||slug;
       ```
+      
   2. ```
      create view total_req as
      select time::date as day, count(*) as total_requests
